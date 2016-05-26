@@ -143,7 +143,12 @@ class ModelAdmin
 
     public function fieldIsRequired($field)
     {
-        return array_key_exists($field->getLowerName(), $this->rules);
+        if (array_key_exists($field->getLowerName(), $this->rules))
+        {
+            return in_array('required', explode('|', $this->rules[$field->getLowerName()]));
+        }
+
+        return false;
     }
 
     /**
