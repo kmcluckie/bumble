@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     concat = require('gulp-concat'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'), //require('gulp-ruby-sass'),
     uglify = require('gulp-uglify'),
     autoprefixer = require('gulp-autoprefixer'),
     plumber = require('gulp-plumber'),
