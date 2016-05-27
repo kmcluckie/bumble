@@ -56,3 +56,14 @@
     float: right;
   }
 }
+
+.inline-table {
+  td {
+    padding: .75rem 0;
+  }
+
+  tr:last-child {
+    border-bottom: none;  
+  }
+}
+

@@ -560,6 +560,11 @@ a {
   background-image: url('../img/ico-delete@2x.png');
 }
 
+.delete-post-small
+{
+  width: 22px;
+}
+
 .edit-post {
   @extend .hidetext;
   @extend %edit-icon;
