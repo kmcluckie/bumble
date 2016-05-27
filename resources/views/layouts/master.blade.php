@@ -15,6 +15,8 @@
     @foreach ($cssAssets as $asset)
         <link rel="stylesheet" href="{{ asset($asset) }}">
     @endforeach
+
+    <script src="{{ asset('/packages/monarkee/bumble/bower_components/jquery/dist/jquery.min.js') }}"></script>
 </head>
 <body>
     <header class="main-header">
