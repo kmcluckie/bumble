@@ -93,6 +93,10 @@
                                 <td>{{ $model->{$field->method()}()->getRelated()->whereId($entry->{$field->getColumn()})->pluck($field->getRelatedTitleColumn()) }}</td>
                             @elseif ($field->getFieldType() == 'BelongsToField')
                                 <td>{{ $model->{$field->method()}()->getRelated()->whereId($entry->{$field->getColumn()})->pluck($field->getRelatedTitleColumn()) }}</td>
+                            @elseif ($field->getFieldType() == 'BelongsToManyField')
+                                <td>
+                                    {{ $entry->{$field->method()}()->lists($field->getRelatedTitleColumn())->implode(', ') }}
+                                </td>
                             @else
                                 <td>{{ $entry->{$field->getColumn()} }}</td>
                             @endif

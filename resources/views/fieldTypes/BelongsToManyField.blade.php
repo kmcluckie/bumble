@@ -1,5 +1,89 @@
-<div class="form__text">
-    <?php $fieldName = $model->fieldIsRequired($field) ? $field->getTitle() . ' (required)' : $field->getTitle(); ?>
-    {!! BumbleForm::label($field->getColumn(), $fieldName, ['class' => 'form__text-label']) !!}
-    {!! BumbleForm::text($field->getColumn(), null, ['class' => 'form__text-input', 'placeholder' => $field->getPlaceholder()]) !!}
+<div class="control g-row sticky-label-top">
+    <div class="g-col-2 tar">
+        {!! BumbleForm::label($field->getColumn(), $field->getRelatedTitle(), ['class' => 'label label--tar'.$model->getRequiredClass($field), 'style' => 'line-height: 4.4rem;']) !!}
+    </div>
+     <div class="g-col-10">
+        <?php
+            $values = [];
+
+            if ( ! $model->fieldIsRequired($field)) $values[0] = '--';
+
+            // $options = $model->{$field->method()}()->getRelated()->lists($field->getRelatedTitleColumn(), 'id');
+            // $options = $model->{$field->method()}()->lists($field->getRelatedTitleColumn(), '.id');
+            $options = App\Amenity::lists($field->getRelatedTitleColumn(), 'id');
+
+            foreach ($options as $key => $value)
+            {
+                $values[$key] = $value;
+            }
+
+            // if ($field->hidesSelf())
+            // {
+            //     // This entries ID
+            //     $removeId = \BumbleForm::getValueAttribute('id');
+
+            //     // Remove this entry from the values
+            //     if (isset($removeId)) unset($values[$removeId]);
+            // }
+        ?>
+
+				@if (isset($post))
+            {!! BumbleForm::select($field->getColumn().'-list', $values, null, ['class' => 'input input1', 'placeholder' => $field->getPlaceholder()]) !!}
+
+            <!-- <button type="button" class="add-{!! $field->getColumn() !!}">Add {!! $field->getColumn() !!}</button> -->
+        		{!! BumbleForm::button('Add ' . str_singular($field->getColumn()), ['class' => 'btn form__btn--auto-with add-'.$field->getColumn(), 'type' => 'button']) !!}
+
+						<table class="table inline-table">
+							<tbody class="{!! $field->getColumn() !!}-container">
+								@foreach($post->{$field->method()}()->get() as $item)
+									<tr data-{!! $field->getColumn() !!}-id="{!! $item->id !!}">
+										<td>
+											{!! $item->{$field->getRelatedTitleColumn()} !!}
+											<input type="hidden" name="{!! $field->getColumn() !!}[]" value="{!! $item->id !!}">
+										</td>
+										<td>
+											<div class="inline-flex">
+                        <button type="button" class="delete-post delete-{!! $field->getColumn() !!}"></button>
+                      </div>
+										</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+				@else
+					Please save this {!! $model->getModelName() !!} before adding {!! $field->getRelatedTitle() !!}
+				@endif
+    </div>
 </div>
+
+<script>
+	$(function() {
+		$('body').on('click', 'button.add-{!! $field->getColumn() !!}', function() {
+			var option = $('select[name={!! $field->getColumn() !!}-list]').find(":selected");
+			if (option.val() > 0 && $('div[data-{!! $field->getColumn() !!}-id='+option.val()+']').length == 0)
+			{
+				var new_item = '<tr data-{!! $field->getColumn() !!}-id="'+option.val()+'"><td>'+option.text()+'<input type="hidden" name="{!! $field->getColumn() !!}[]" value="'+option.val()+'"></td><td><div class="inline-flex"><button type="button" class="delete-post"></button></div></td></tr>';
+
+				$('.{!! $field->getColumn() !!}-container').append(new_item);
+			}
+		});
+
+		$('body').on('click', 'button.delete-{!! $field->getColumn() !!}', function() {
+			$(this).closest('tr').remove();
+		});
+	});
+</script>
+
+<style>
+	.inline-table tr td {
+		padding: .75rem 0;
+	}
+
+	.inline-table tr:last-child {
+    border-bottom: none;	
+	}
+
+	.sticky-label-top {
+		align-items: flex-start;
+	}
+</style>
