@@ -40,7 +40,7 @@
               </tbody>
             </table>
         @else
-          <div class="label">Please save this {!! $model->getModelName() !!} before adding {!! $field->getRelatedTitle() !!}.</div>
+          <div class="label" style="line-height: 4.4rem;">Please save this {!! $model->getModelName() !!} before adding {!! $field->getRelatedTitle() !!}.</div>
         @endif
     </div>
 </div>
