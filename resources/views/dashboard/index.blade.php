@@ -22,7 +22,9 @@
             </thead>
         @foreach($models as $model)
         <tr>
-            <td>{{{ $model->getPluralName() }}}</td>
+            <td>
+                <a href="{{ route(config('bumble.admin_prefix').'.'.$model->getPluralSlug().'.index') }}" style="color: #2795b6;">{{{ $model->getPluralName() }}}</a>
+            </td>
             <td>{{ $model->getDescription() }}</td>
             <td>{{{ $model::count() }}} {{{ str_plural($model->getModelName(), $model::count()) }}}</td>
             <td>

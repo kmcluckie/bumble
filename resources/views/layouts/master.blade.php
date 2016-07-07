@@ -64,7 +64,7 @@
     @yield('content')
 
     <footer class="main-footer">
-        <p class="copyright">&copy; {{ date('Y') }} Monarkee. All Rights Reserved.</p>
+        <p class="copyright">&copy; {{ date('Y') }} Ten Peaks. All Rights Reserved.</p>
     </footer>
 
 
